@@ -2,13 +2,13 @@
 
 ### steps to setup project
 
-Install nodejs of virsion greater than 10.
+Install nodejs on your device(virsion greater than 6).
 
-Now clone project to your device.
+Now clone project on your device.
 
 ### steps to install packages
 
-From root directory, first of all install client packages
+From root directory, install client packages
 
 1. ### `npm run client-install`
 
