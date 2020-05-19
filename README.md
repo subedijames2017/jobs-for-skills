@@ -10,11 +10,11 @@ Now clone project on your device.
 
 From root directory, install client packages
 
-1. ### `npm run client-install`
+1. ## `npm run client-install`
 
 Second install server packages
 
-2. ### `npm run install`
+2. ## `npm run install`
 
 ## Available Scripts
 
@@ -35,11 +35,8 @@ Open [http://localhost:3001](http://localhost:3001) to view it in the browser.
 
 ### `npm run dev`
 
-Concurrently runs the server in the development mode.<br />
-Open [http://localhost:3001](http://localhost:3001) to view it in the browser
-and
+Concurrently runs client and  server in the development mode.<br />
+Open [http://localhost:3001](http://localhost:3001) to view it in the browser<br/>
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
