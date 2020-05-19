@@ -10,11 +10,11 @@ Now clone project on your device.
 
 From root directory, install client packages
 
-1. ## `npm run client-install`
+1. ### `npm run client-install`
 
 Second install server packages
 
-2. ## `npm run install`
+2. ### `npm run install`
 
 ## Available Scripts
 
