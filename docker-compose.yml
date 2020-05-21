@@ -1,0 +1,13 @@
+version: "3"
+services:
+  jobs-for-skills:
+    build: .
+    command: npm run server
+    volumes:
+      - .:/usr/app/
+      - /usr/app/node_modules
+    ports:
+      - "3000:3001"
+    # Set environment variables from .env file
+    env_file:
+      - .env
