@@ -1,7 +1,13 @@
 import sys
 import json
 import pickle
+from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.feature_extraction.text import CountVectorizer
+
 # load trained model
+count_vect = CountVectorizer()
+tfidf_transformer = TfidfTransformer()
 clfs = pickle.load( open( "../MultinominalNB.pkl", "rb" ) )
 
 # Examples of skills e1 and e2
