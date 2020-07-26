@@ -1,8 +1,6 @@
 import sys
-import json
 import pickle
-from sklearn.feature_extraction.text import TfidfTransformer
-from sklearn.feature_extraction.text import CountVectorizer
+
 
 # load trained model
 # clfs = pickle.load(open("MultinominalNB.pkl", 'rb' ))
@@ -32,6 +30,7 @@ A desire to stay abreast of developments in web applications and programming lan
 Excellent written and verbal communication skills for coordinating across teams.
 A drive to learn and master new technologies and techniques."""
 
+doc = [e1,e2]
 # # take skill in list
 # docs_new = [e1,e2]
 # # preprocess data
@@ -39,19 +38,19 @@ A drive to learn and master new technologies and techniques."""
 # X_new_tfidf = tfidf_transformer.transform(X_new_counts)
 # # predict the class
 # print("pass")
-predicted = clfs.predict([e1])
-output = list(predicted)
+predicted = loaded_model.predict(doc)
+
 
 # predicted = ['Machine Learning', 'Full Stack Developer']
 # y = json.loads(sys.argv[1])
 
-print(output)
+print(predicted)
 
-response={
-  "status":200,
-  "message":"The recommended Job title is",
-  "data": predicted #y["name"]
-}
-print(json.dumps(response))
+#response={
+#  "status":200,
+#  "message":"The recommended Job title is",
+#  "data": predicted #y["name"]
+#}
+#print(json.dumps(response))
 
-sys.stdout.flush()
+#sys.stdout.flush()
