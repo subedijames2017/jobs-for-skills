@@ -11,7 +11,11 @@ app.get("/", function (req, res) {
     console.log("data", JSON.parse(data.toString()));
 
     console.log("Pipe data from python script ...");
-    largeDataSet.push(JSON.parse(data.toString()));
+    let predicted = JSON.parse(data.toString());
+    largeDataSet.push(predicted.data);
+  });
+  python.stderr.on("data", (error) => {
+    console.error(`stderr: ${error}`);
   });
   // in close event we are sure that stream is from child process is closed
   python.on("close", (code) => {
