@@ -1,8 +1,13 @@
 const express = require("express");
 const app = express();
 const { spawn } = require("child_process");
+const bodyParser = require("body-parser");
 
-app.get("/", function (req, res) {
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+app.post("/api/job", function (req, res) {
+  console.log("req", req.body);
   let largeDataSet = [];
   const python = spawn("python", ["scripts/script.py", '{"name":"james"}']);
   // collect data from script

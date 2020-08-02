@@ -1,7 +1,39 @@
 import React, { Component } from "react";
+import axios from "axios";
+import { Form, Button, ListGroup } from "react-bootstrap";
 
-export default class Landingpage extends Component {
+class Landingpage extends Component {
+  constructor(props) {
+    super(props);
+    this.handelSkillChange = this.handelSkillChange.bind(this);
+    this.handleRecommendJobs = this.handleRecommendJobs.bind(this);
+
+    this.state = {
+      skills: null,
+      job: null,
+    };
+  }
+  handelSkillChange(e) {
+    console.log("This code is runing");
+    this.setState({
+      skills: e.target.value,
+    });
+  }
+  handleRecommendJobs(e) {
+    e.preventDefault();
+    axios({
+      method: "post",
+      url: "/api/job",
+      data: {
+        firstName: "Fred",
+        lastName: "Flintstone",
+      },
+    }).then((resp) => {
+      console.log("Landingpage -> componentDidMount -> resp", resp);
+    });
+  }
   render() {
+    let handleRecommendJobs = this.handleRecommendJobs;
     return (
       <div id="content">
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -31,7 +63,7 @@ export default class Landingpage extends Component {
                 aria-controls="nav-home"
                 aria-selected="true"
               >
-                Recomend
+                Recommend
               </a>
               <a
                 className="nav-item nav-link"
@@ -54,7 +86,29 @@ export default class Landingpage extends Component {
             role="tabpanel"
             aria-labelledby="nav-home-tab"
           >
-            Recomendation code goes here
+            <Form onSubmit={handleRecommendJobs}>
+              <Form.Group controlId="formBasicEmail">
+                <Form.Label>Enter skills you have</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter Skills"
+                  onChange={this.handelSkillChange}
+                />
+                <Form.Text className="text-muted">
+                  Enter your coma seperated skills
+                </Form.Text>
+              </Form.Group>
+              <Button variant="info" type="submit">
+                Recommend job
+              </Button>
+            </Form>
+            <div className="mt-4">
+              <ListGroup>
+                <ListGroup.Item action variant="info">
+                  Info
+                </ListGroup.Item>
+              </ListGroup>
+            </div>
           </div>
           <div
             className="tab-pane fade"
@@ -69,3 +123,4 @@ export default class Landingpage extends Component {
     );
   }
 }
+export default Landingpage;
