@@ -9,7 +9,14 @@ app.use(bodyParser.json());
 app.post("/api/job", function (req, res) {
   console.log("req", req.body);
   let largeDataSet = [];
-  const python = spawn("python", ["scripts/script.py", '{"name":"james"}']);
+  let skillsObject = {
+    skills: req.body.skills,
+  };
+  console.log("JSON.stringify(skillsObject)", JSON.stringify(skillsObject));
+  const python = spawn("python", [
+    "scripts/script.py",
+    JSON.stringify(skillsObject),
+  ]);
   // collect data from script
   python.stdout.on("data", function (data) {
     console.log("data", data.toString());

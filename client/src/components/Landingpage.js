@@ -9,12 +9,11 @@ class Landingpage extends Component {
     this.handleRecommendJobs = this.handleRecommendJobs.bind(this);
 
     this.state = {
-      skills: null,
+      skills: "",
       job: null,
     };
   }
   handelSkillChange(e) {
-    console.log("This code is runing");
     this.setState({
       skills: e.target.value,
     });
@@ -25,11 +24,15 @@ class Landingpage extends Component {
       method: "post",
       url: "/api/job",
       data: {
-        firstName: "Fred",
-        lastName: "Flintstone",
+        skills: this.state.skills,
       },
     }).then((resp) => {
-      console.log("Landingpage -> componentDidMount -> resp", resp);
+      if (resp && resp.data && resp.data.length > 0) {
+        this.setState({
+          job: resp.data[0][0],
+          skills: "",
+        });
+      }
     });
   }
   render() {
@@ -90,7 +93,9 @@ class Landingpage extends Component {
               <Form.Group controlId="formBasicEmail">
                 <Form.Label>Enter skills you have</Form.Label>
                 <Form.Control
-                  type="text"
+                  value={this.state.skills}
+                  as="textarea"
+                  rows="3"
                   placeholder="Enter Skills"
                   onChange={this.handelSkillChange}
                 />
@@ -102,13 +107,16 @@ class Landingpage extends Component {
                 Recommend job
               </Button>
             </Form>
-            <div className="mt-4">
-              <ListGroup>
-                <ListGroup.Item action variant="info">
-                  Info
-                </ListGroup.Item>
-              </ListGroup>
-            </div>
+            {this.state.job && (
+              <div className="mt-4">
+                <p>Recommended Job</p>
+                <ListGroup>
+                  <ListGroup.Item action variant="info">
+                    {this.state.job}
+                  </ListGroup.Item>
+                </ListGroup>
+              </div>
+            )}
           </div>
           <div
             className="tab-pane fade"
