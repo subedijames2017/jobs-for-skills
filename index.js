@@ -1,10 +1,14 @@
 const express = require("express");
 const app = express();
+const path = require("path");
+require("dotenv").config({ path: "./.env" });
 const { spawn } = require("child_process");
 const bodyParser = require("body-parser");
-
+const user = require("./routes/user");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use('/api/users', user)
 
 app.post("/api/job", function (req, res) {
   console.log("req", req.body);
@@ -13,7 +17,7 @@ app.post("/api/job", function (req, res) {
     skills: req.body.skills,
   };
   console.log("JSON.stringify(skillsObject)", JSON.stringify(skillsObject));
-  const python = spawn("python", [
+  const python = spawn("python3", [
     "scripts/script.py",
     JSON.stringify(skillsObject),
   ]);
