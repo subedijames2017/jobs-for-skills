@@ -22,7 +22,7 @@ class Landingpage extends Component {
     e.preventDefault();
     axios({
       method: "post",
-      url: "/api/job",
+      url: "/api/recommend",
       data: {
         skills: this.state.skills,
       },

@@ -31,9 +31,16 @@ class Skills extends Component {
     this.props.addSkills(user.id, skills, skillsId, this.props.history);
   }
 
-  componentWillMount() {
-    const { isAuthenticated, user } = this.props.auth;
-    this.props.getUserSkills(user.id);
+  componentDidMount() {
+    const { skillsObject } = this.props.profile;
+    if (skillsObject.id && skillsObject.skills) {
+      this.setState({
+        skills: JSON.parse(skillsObject.skills).join(),
+      });
+    } else {
+      const { isAuthenticated, user } = this.props.auth;
+      this.props.getUserSkills(user.id);
+    }
   }
   componentDidUpdate(nextProps) {
     let { skillsObject } = this.props.profile;
@@ -47,7 +54,7 @@ class Skills extends Component {
           skills = JSON.parse(skillsObject.skills);
         }
         this.setState({
-          skills: skills,
+          skills: skills.join(),
         });
       }
     }
