@@ -1,6 +1,5 @@
 import { SET_CURRENT_USER } from "./types";
 import { GET_ERROR } from "./types";
-import { CLEAR_CURRENT_USER } from "./types";
 import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
@@ -60,10 +59,4 @@ export const logoutuser = () => (dispatch) => {
   setAuthToken(false);
   // Set current user to {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
-};
-// Clear profile
-export const clearCurrentUser = () => {
-  return {
-    type: CLEAR_CURRENT_USER,
-  };
 };

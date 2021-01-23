@@ -40,51 +40,34 @@ class Landingpage extends Component {
     return (
       <React.Fragment>
         <div id="content" className="container-fluid">
-          <div className="tab-content" id="nav-tabContent">
-            <div
-              className="tab-pane fade show active"
-              id="nav-home"
-              role="tabpanel"
-              aria-labelledby="nav-home-tab"
-            >
-              <Form onSubmit={handleRecommendJobs}>
-                <Form.Group controlId="formBasicEmail">
-                  <Form.Label>Enter skills you have</Form.Label>
-                  <Form.Control
-                    value={this.state.skills}
-                    as="textarea"
-                    rows="3"
-                    placeholder="Enter Skills"
-                    onChange={this.handelSkillChange}
-                  />
-                  <Form.Text className="text-muted">
-                    Enter your coma seperated skills
-                  </Form.Text>
-                </Form.Group>
-                <Button variant="info" type="submit">
-                  Recommend job
-                </Button>
-              </Form>
-              {this.state.job && (
-                <div className="mt-4">
-                  <p>Recommended Job</p>
-                  <ListGroup>
-                    <ListGroup.Item action variant="info">
-                      {this.state.job}
-                    </ListGroup.Item>
-                  </ListGroup>
-                </div>
-              )}
+          <Form onSubmit={handleRecommendJobs}>
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>Enter skills you have</Form.Label>
+              <Form.Control
+                value={this.state.skills}
+                as="textarea"
+                rows="3"
+                placeholder="Enter Skills"
+                onChange={this.handelSkillChange}
+              />
+              <Form.Text className="text-muted">
+                Enter your coma seperated skills
+              </Form.Text>
+            </Form.Group>
+            <Button variant="info" type="submit">
+              Recommend job
+            </Button>
+          </Form>
+          {this.state.job && (
+            <div className="mt-4">
+              <p>Recommended Job</p>
+              <ListGroup>
+                <ListGroup.Item action variant="info">
+                  {this.state.job}
+                </ListGroup.Item>
+              </ListGroup>
             </div>
-            <div
-              className="tab-pane fade"
-              id="nav-profile"
-              role="tabpanel"
-              aria-labelledby="nav-profile-tab"
-            >
-              Job lists goes here
-            </div>
-          </div>
+          )}
         </div>
       </React.Fragment>
     );

@@ -13,11 +13,6 @@ export default function (state = initialState, action) {
         isAuthenticated: !isEmpty(action.payload),
         user: action.payload,
       };
-    case CLEAR_CURRENT_USER:
-      return {
-        ...state,
-        profile: null,
-      };
     default:
       return state;
   }

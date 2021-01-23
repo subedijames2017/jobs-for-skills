@@ -4,6 +4,7 @@ const knex = require("../db/knex");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const key = require("../config/keys");
+const { request } = require("express");
 
 //register
 router.post("/register", (req, res, next) => {
@@ -95,6 +96,63 @@ router.post("/login", (req, res) => {
       console.log("🚀 ~ file: user.js ~ line 103 ~ router.post ~ err", err);
       return res.send({ success: false, message: "invalid email password" });
     });
+});
+router.get("/skills", (req, res) => {
+  const userId = req.query.user_id;
+  knex("user_skills")
+    .where("user_id", userId)
+    .select("*")
+    .first()
+    .then((user) => {
+      return res.json({
+        success: true,
+        skills: user && user.skills ? user : {},
+      });
+    })
+    .catch((err) => {
+      console.log("🚀 ~ file: user.js ~ line 113 ~ router.get ~ err", err);
+      return res.send({ success: false, message: "internal server error" });
+    });
+});
+router.post("/skills", (req, res) => {
+  const userId = req.body.user_id;
+  const skills = req.body.skills;
+  if (req.body.id) {
+    let updateData = {
+      id: req.body.id,
+      user_id: userId,
+      skills: JSON.stringify(skills),
+    };
+    knex("user_skills")
+      .update(updateData)
+      .where("user_id", userId)
+      .then((skills) => {
+        return res.json({
+          success: true,
+          message: "skills updated successfully",
+        });
+      })
+      .catch((err) => {
+        return res.send({ success: false, message: "internal server error" });
+      });
+  } else {
+    let updateData = {
+      user_id: userId,
+      skills: JSON.stringify(skills),
+    };
+    knex("user_skills")
+      .insert(updateData)
+      .then((skills) => {
+        return res.json({
+          success: true,
+          message: "skills added successfully",
+        });
+      })
+      .catch((err) => {
+        console.log("🚀 ~ file: user.js ~ line 150 ~ router.post ~ err", err);
+        return res.send({ success: false, message: "internal server error" });
+      });
+  }
 });
 
 module.exports = router;

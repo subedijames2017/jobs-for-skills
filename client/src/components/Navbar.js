@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { logoutuser, clearCurrentUser } from "./../actions/authAction";
-import PropTypes from "prop-types";
+import { logoutuser } from "./../actions/authAction";
+import { clearCurrentUser } from "./../actions/profileAction";
 
 class Navbar extends Component {
   handelLogout = (e) => {
@@ -41,15 +41,13 @@ class Navbar extends Component {
                 </a>
                 <div className="dropdown-menu dropdown-menu-right">
                   <Link to="/profile" className="dropdown-item">
-                    <i className="fa fa-user" aria-hidden="true"></i> Your
-                    Profile
+                    <i className="fa fa-user" aria-hidden="true"></i> Profile
                   </Link>
                   <Link to="/jobs" className="dropdown-item">
-                    <i className="fa fa-briefcase" aria-hidden="true"></i> Your
-                    Jobs
+                    <i className="fa fa-briefcase" aria-hidden="true"></i> Jobs
                   </Link>
                   <Link to="/skills" className="dropdown-item">
-                    <i className="fa fa-key" aria-hidden="true"></i> Your Skills
+                    <i className="fa fa-key" aria-hidden="true"></i> Skills
                   </Link>
                   <div className="dropdown-divider" />
                   <Link
