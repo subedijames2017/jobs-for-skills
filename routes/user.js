@@ -4,7 +4,6 @@ const knex = require("../db/knex");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const key = require("../config/keys");
-const { request } = require("express");
 
 //register
 router.post("/register", (req, res, next) => {
@@ -19,7 +18,7 @@ router.post("/register", (req, res, next) => {
     last_name: req.body.last_name,
     email: req.body.email,
     password: req.body.password,
-    avatar: null,
+    avatar: `https://ui-avatars.com/api/?name=${req.body.first_name}&size=128`,
     created_date: date.toISOString().slice(0, 19).replace("T", " "),
   };
   bcrypt.genSalt(10, function (err, salt) {
@@ -63,8 +62,9 @@ router.post("/login", (req, res) => {
             const payload = {
               id: user.id,
               email: user.email,
-              firstName: user.firstName,
-              lastName: user.lastName,
+              firstName: user.first_name,
+              lastName: user.last_name,
+              avatar: user.avatar,
             };
             //sign token
             jwt.sign(

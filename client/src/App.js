@@ -43,8 +43,8 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
-        <Navbar />
         <div className="App wrapper">
+          <Navbar />
           <Route exact path="/" component={Landingpage} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/about" component={About} />

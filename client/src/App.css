@@ -18,16 +18,6 @@ body {
 --                  Utility class         ---
 ----------------------------------------------- */
 
-/* container */
-.container {
-  max-width: 1100px;
-  margin: auto;
-  overflow: hidden;
-  padding: 0 2rem;
-  margin-top: 6rem;
-  margin-bottom: 3rem;
-}
-
 /* text styles */
 .x-large {
   font-size: 4rem;
@@ -128,7 +118,7 @@ body {
 
 /* Background */
 .bg-primary {
-  background-color: #17a2b8;
+  background-color: #17a2b8 !important;
   color: #fff;
 }
 .bg-light {
@@ -267,7 +257,7 @@ img {
 }
 
 .badge-dark {
-  background: #343a40;
+  background: #7bb7f3;
   color: #fff;
 }
 
@@ -382,9 +372,66 @@ textarea {
 .dropdown-menu {
   background-color: #17a2b8 !important;
 }
-.dropdown-avatar {
-  background-color:#238392;
-  border-radius: 47%;
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 40px;
+}
+.profile {
+  display: grid;
+  grid-template-columns: 2fr 4fr 2fr;
+  grid-gap: 2rem;
+  align-items: center;
+  padding: 1rem;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+/* profile page */
+.profile-grid {
+  display: grid;
+  grid-template-areas:
+    "top top"
+    "about about"
+    "exp edu"
+    "github github";
+  grid-gap: 1rem;
+}
+
+.profile-grid .profile-top {
+  grid-area: top;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 220px;
+  border-radius: 20px;
+}
+
+.profile-grid .profile-top img {
+  width: 100px;
+}
+
+.profile-grid .profile-top .icons a {
+  color: #fff;
+  margin: 0 0.3rem;
+}
+
+.profile-grid .profile-top .icons a:hover {
+  color: #343a40;
+}
+
+.profile-grid .profile-about {
+  grid-area: about;
+  text-align: center;
+}
+
+.profile-grid .profile-about .skills {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 @media (max-width: 700px) {
   .hide-sm {

@@ -17,7 +17,7 @@ class Navbar extends Component {
       <div>
         <nav className="navbar bg-blue">
           <h1>
-            <a href="dashboard.html">
+            <a href="/">
               <i className="fa fa-briefcase" aria-hidden="true"></i> Jobs For
               skills
             </a>
@@ -36,7 +36,11 @@ class Navbar extends Component {
                   data-toggle="dropdown"
                 >
                   <span>
-                    <i className="fa fa-user" aria-hidden="true"></i>
+                    <img
+                      src={user.avatar}
+                      className="avatar"
+                      alt="BigCo Inc. logo"
+                    />
                   </span>
                 </a>
                 <div className="dropdown-menu dropdown-menu-right">
