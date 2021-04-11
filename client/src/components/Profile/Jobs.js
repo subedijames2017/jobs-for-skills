@@ -1,7 +1,8 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, {Component} from "react";
+import {connect} from "react-redux";
 import axios from "axios";
-import { getUserSkills } from "../../actions/profileAction";
+import {getUserSkills} from "../../actions/profileAction";
+import {Spinner, Card, Container, Row, Col} from "react-bootstrap";
 
 class Jobs extends Component {
   constructor(props) {
@@ -13,9 +14,9 @@ class Jobs extends Component {
     };
   }
   componentWillMount() {
-    const { skillsObject } = this.props.profile;
+    const {skillsObject} = this.props.profile;
     if (skillsObject.id && skillsObject.skills) {
-      let { skillsObject } = this.props.profile;
+      let {skillsObject} = this.props.profile;
       if (skillsObject.id && JSON.parse(skillsObject.skills).length > 0) {
         let skills = JSON.parse(skillsObject.skills).join();
         if (this.state.recommend.length <= 0) {
@@ -27,9 +28,14 @@ class Jobs extends Component {
             },
           })
             .then((resp) => {
-              if (resp && resp.data && resp.data.length > 0) {
+              console.log(
+                "🚀 ~ file: Jobs.js ~ line 30 ~ Jobs ~ .then ~ resp",
+                resp
+              );
+              if (resp && resp.data.data && resp.data.data.length > 0) {
                 this.setState({
-                  recommend: resp.data[0],
+                  recommend: resp.data.data,
+                  loadong: false,
                 });
               }
             })
@@ -42,12 +48,12 @@ class Jobs extends Component {
         }
       }
     } else {
-      const { user } = this.props.auth;
+      const {user} = this.props.auth;
       this.props.getUserSkills(user.id);
     }
   }
   componentDidUpdate(nextProps) {
-    let { skillsObject } = this.props.profile;
+    let {skillsObject} = this.props.profile;
     if (skillsObject.id && JSON.parse(skillsObject.skills).length > 0) {
       let skills = JSON.parse(skillsObject.skills).join();
       if (this.state.recommend.length <= 0) {
@@ -59,9 +65,14 @@ class Jobs extends Component {
           },
         })
           .then((resp) => {
-            if (resp && resp.data && resp.data.length > 0) {
+            console.log(
+              "🚀 ~ file: Jobs.js ~ line 66 ~ Jobs ~ .then ~ resp",
+              resp
+            );
+            if (resp && resp.data.data && resp.data.data.length > 0) {
               this.setState({
-                recommend: resp.data[0],
+                recommend: resp.data.data,
+                loadong: false,
               });
             }
           })
@@ -75,18 +86,39 @@ class Jobs extends Component {
     }
   }
   render() {
-    let reccomendedJobTitles = [];
-    let titleList;
+    let spinnerContent = [];
+    let reccomendedJobs = [];
+    if (this.state.loadong) {
+      console.log("inside here");
+      spinnerContent.push(
+        <Spinner
+          className="spinner"
+          animation="border"
+          variant="info"
+          size="lg"
+        />
+      );
+    }
     if (this.state.recommend.length > 0) {
-      this.state.recommend.forEach((title, index) => {
-        titleList = <li key={index}>{title}</li>;
-        reccomendedJobTitles.push(titleList);
+      this.state.recommend.forEach((vacency, index) => {
+        reccomendedJobs.push(
+          <Col sm={3}>
+            <Card style={{width: "18rem"}}>
+              <Card.Body>
+                <Card.Title>{vacency.title}</Card.Title>
+              </Card.Body>
+            </Card>
+          </Col>
+        );
       });
     }
 
     return (
       <div>
-        <ul>{reccomendedJobTitles}</ul>
+        {spinnerContent}
+        <Container className="jobs">
+          <Row>{reccomendedJobs}</Row>
+        </Container>
       </div>
     );
   }
@@ -95,4 +127,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
   profile: state.profile,
 });
-export default connect(mapStateToProps, { getUserSkills })(Jobs);
+export default connect(mapStateToProps, {getUserSkills})(Jobs);

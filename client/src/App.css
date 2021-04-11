@@ -462,3 +462,13 @@ textarea {
     padding-top: 3px;
   }
 }
+.spinner {
+  position: absolute;
+  top: 40%;
+  right: 50%;
+  width: 4rem !important;
+  height: 4rem !important;
+}
+.jobs {
+  margin: 10px;
+}

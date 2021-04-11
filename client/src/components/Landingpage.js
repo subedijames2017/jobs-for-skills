@@ -1,6 +1,15 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import axios from "axios";
-import { Form, Button, ListGroup } from "react-bootstrap";
+import {
+  Form,
+  Button,
+  ListGroup,
+  Spinner,
+  Card,
+  Container,
+  Row,
+  Col,
+} from "react-bootstrap";
 
 class Landingpage extends Component {
   constructor(props) {
@@ -10,7 +19,8 @@ class Landingpage extends Component {
 
     this.state = {
       skills: "",
-      job: null,
+      jobs: [],
+      loading: false,
     };
   }
   handelSkillChange(e) {
@@ -19,6 +29,9 @@ class Landingpage extends Component {
     });
   }
   handleRecommendJobs(e) {
+    this.setState({
+      loading: true,
+    });
     e.preventDefault();
     axios({
       method: "post",
@@ -27,18 +40,45 @@ class Landingpage extends Component {
         skills: this.state.skills,
       },
     }).then((resp) => {
-      if (resp && resp.data && resp.data.length > 0) {
+      if (resp && resp.data.data && resp.data.data.length > 0) {
         this.setState({
-          job: resp.data[0][0],
+          jobs: resp.data.data,
           skills: "",
+          loading: false,
         });
       }
     });
   }
   render() {
     let handleRecommendJobs = this.handleRecommendJobs;
+    let spinnerContent = [];
+    let reccomendedJobs = [];
+    if (this.state.loading) {
+      spinnerContent.push(
+        <Spinner
+          className="spinner"
+          animation="border"
+          variant="info"
+          size="lg"
+        />
+      );
+    }
+    if (this.state.jobs.length > 0) {
+      this.state.jobs.forEach((vacency, index) => {
+        reccomendedJobs.push(
+          <Col sm={3}>
+            <Card style={{width: "18rem"}}>
+              <Card.Body>
+                <Card.Title>{vacency.title}</Card.Title>
+              </Card.Body>
+            </Card>
+          </Col>
+        );
+      });
+    }
     return (
       <React.Fragment>
+        {spinnerContent}
         <div id="content" className="container-fluid">
           <Form onSubmit={handleRecommendJobs}>
             <Form.Group controlId="formBasicEmail">
@@ -49,6 +89,7 @@ class Landingpage extends Component {
                 rows="3"
                 placeholder="Enter Skills"
                 onChange={this.handelSkillChange}
+                required
               />
               <Form.Text className="text-muted">
                 Enter your coma seperated skills
@@ -58,16 +99,9 @@ class Landingpage extends Component {
               Recommend job
             </Button>
           </Form>
-          {this.state.job && (
-            <div className="mt-4">
-              <p>Recommended Job</p>
-              <ListGroup>
-                <ListGroup.Item action variant="info">
-                  {this.state.job}
-                </ListGroup.Item>
-              </ListGroup>
-            </div>
-          )}
+          <Container className="jobs">
+            <Row>{reccomendedJobs}</Row>
+          </Container>
         </div>
       </React.Fragment>
     );
