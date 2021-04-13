@@ -238,7 +238,7 @@ ul {
 }
 
 img {
-  width: 100%;
+  width: 40px;
 }
 
 /* badges */
@@ -469,6 +469,15 @@ textarea {
   width: 4rem !important;
   height: 4rem !important;
 }
-.jobs {
-  margin: 10px;
+
+.card {
+  height: 200px !important;
+  margin: 5px !important;
+}
+.job_link {
+  text-decoration: none;
+  color: black;
+}
+.job_link:hover {
+  text-decoration: none;
 }

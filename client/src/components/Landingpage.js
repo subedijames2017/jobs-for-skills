@@ -65,11 +65,30 @@ class Landingpage extends Component {
     }
     if (this.state.jobs.length > 0) {
       this.state.jobs.forEach((vacency, index) => {
+        let description = vacency.description;
+        description = JSON.parse(description);
         reccomendedJobs.push(
-          <Col sm={3}>
-            <Card style={{width: "18rem"}}>
+          <Col sm={4}>
+            <Card>
               <Card.Body>
-                <Card.Title>{vacency.title}</Card.Title>
+                <Row>
+                  <Col sm={2}>
+                    <img variant="top" src={vacency.avatar} />
+                  </Col>
+                  <Col sm={10}>
+                    <a href={vacency.link} target="_blank" className="job_link">
+                      <Card.Title>{vacency.title}</Card.Title>
+                    </a>
+                    <Row>
+                      <Col>
+                        <Card.Text>
+                          Company: {description.companyName}
+                        </Card.Text>
+                        <Card.Text>Location: {description.location}</Card.Text>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
               </Card.Body>
             </Card>
           </Col>

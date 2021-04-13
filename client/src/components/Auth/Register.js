@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import { registeruser } from "../../actions/authAction";
+import React, {Component} from "react";
+import {withRouter} from "react-router-dom";
+import {connect} from "react-redux";
+import {registeruser} from "../../actions/authAction";
 import PropTypes from "prop-types";
 import TextFieldGroup from "../common/TextFieldGroup";
 class Register extends Component {
@@ -21,7 +21,7 @@ class Register extends Component {
   }
 
   onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({[e.target.name]: e.target.value});
   }
 
   onSubmit(e) {
@@ -43,12 +43,12 @@ class Register extends Component {
   };
   componentWillReceiveProps = (nesxtProps) => {
     if (nesxtProps.errors) {
-      this.setState({ errors: nesxtProps.errors });
+      this.setState({errors: nesxtProps.errors});
     }
   };
 
   render() {
-    const { errors } = this.state;
+    const {errors} = this.state;
     return (
       <React.Fragment>
         <section className="container-fluid">
@@ -97,7 +97,7 @@ class Register extends Component {
 
                 <input type="submit" className="btn btn-info btn-block mt-4" />
                 <p className="my-1">
-                  Already have an account? <a href="/login">Sign Up</a>
+                  Already have an account? <a href="/login">Sign </a>
                 </p>
               </form>
             </div>
@@ -116,4 +116,4 @@ const mapStateToProps = (state) => ({
   errors: state.errors,
 });
 
-export default connect(mapStateToProps, { registeruser })(withRouter(Register));
+export default connect(mapStateToProps, {registeruser})(withRouter(Register));
