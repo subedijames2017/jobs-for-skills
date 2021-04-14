@@ -19,6 +19,8 @@ router.post("/", (req, res, next) => {
   python.stdout.on("data", function (data) {
     let predicted = JSON.parse(data.toString());
     let searchString = "";
+    const date = new Date();
+    let currnetDate = date.toISOString().split("T")[0];
     let query = knex("vacencies").select("*");
     let counter = 0;
     predicted.data.forEach((element) => {
@@ -35,6 +37,12 @@ router.post("/", (req, res, next) => {
       }
     });
     query
+      .from(function () {
+        this.select("*")
+          .from("vacencies")
+          .where("created_date", currnetDate)
+          .as("t1");
+      })
       .then((result) => {
         if (result && result.length > 0) {
           largeDataSet["data"] = result;

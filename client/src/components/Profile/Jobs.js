@@ -11,13 +11,18 @@ class Jobs extends Component {
       recommend: [],
       error: null,
       loadong: true,
+      emptyResult: false,
     };
   }
   componentWillMount() {
     const {skillsObject} = this.props.profile;
     if (skillsObject.id && skillsObject.skills) {
       let {skillsObject} = this.props.profile;
-      if (skillsObject.id && JSON.parse(skillsObject.skills).length > 0) {
+      if (
+        skillsObject.id &&
+        JSON.parse(skillsObject.skills).length > 0 &&
+        !this.state.emptyResult
+      ) {
         let skills = JSON.parse(skillsObject.skills).join();
         if (this.state.recommend.length <= 0) {
           axios({
@@ -54,7 +59,11 @@ class Jobs extends Component {
   }
   componentDidUpdate(nextProps) {
     let {skillsObject} = this.props.profile;
-    if (skillsObject.id && JSON.parse(skillsObject.skills).length > 0) {
+    if (
+      skillsObject.id &&
+      JSON.parse(skillsObject.skills).length > 0 &&
+      !this.state.emptyResult
+    ) {
       let skills = JSON.parse(skillsObject.skills).join();
       if (this.state.recommend.length <= 0) {
         axios({
@@ -74,6 +83,12 @@ class Jobs extends Component {
                 recommend: resp.data.data,
                 loadong: false,
               });
+            } else {
+              this.setState({
+                recommend: [],
+                loadong: false,
+                emptyResult: true,
+              });
             }
           })
           .catch((err) => {
@@ -81,6 +96,11 @@ class Jobs extends Component {
               "🚀 ~ file: Jobs.js ~ line 40 ~ Jobs ~ componentDidUpdate ~ err",
               err
             );
+            this.setState({
+              recommend: [],
+              loadong: false,
+              emptyResult: true,
+            });
           });
       }
     }
@@ -130,6 +150,16 @@ class Jobs extends Component {
           </Col>
         );
       });
+    }
+    if (this.state.emptyResult) {
+      reccomendedJobs.push(
+        <Col>
+          <Row className="d-flex justify-content-center">
+            <i className="fa fa-home" aria-hidden="true"></i>{" "}
+            <p>No vacencies now for your skills</p>
+          </Row>
+        </Col>
+      );
     }
 
     return (

@@ -21,6 +21,7 @@ class Landingpage extends Component {
       skills: "",
       jobs: [],
       loading: false,
+      emptyResult: false,
     };
   }
   handelSkillChange(e) {
@@ -40,7 +41,12 @@ class Landingpage extends Component {
         skills: this.state.skills,
       },
     }).then((resp) => {
-      if (resp && resp.data.data && resp.data.data.length > 0) {
+      if (
+        resp &&
+        resp.data.data &&
+        resp.data.data.length > 0 &&
+        !this.state.emptyResult
+      ) {
         this.setState({
           jobs: resp.data.data,
           skills: "",
@@ -94,6 +100,16 @@ class Landingpage extends Component {
           </Col>
         );
       });
+    }
+    if (this.state.emptyResult) {
+      reccomendedJobs.push(
+        <Col>
+          <Row className="d-flex justify-content-center">
+            <i className="fa fa-home" aria-hidden="true"></i>{" "}
+            <p>No vacencies now for your skills</p>
+          </Row>
+        </Col>
+      );
     }
     return (
       <React.Fragment>
