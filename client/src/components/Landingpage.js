@@ -74,7 +74,7 @@ class Landingpage extends Component {
         let description = vacency.description;
         description = JSON.parse(description);
         reccomendedJobs.push(
-          <Col sm={4}>
+          <Col sm={4} key={vacency.id}>
             <Card>
               <Card.Body>
                 <Row>
@@ -112,7 +112,7 @@ class Landingpage extends Component {
       );
     }
     return (
-      <React.Fragment>
+      <div className="container-fluid">
         {spinnerContent}
         <div id="content" className="container-fluid">
           <Form onSubmit={handleRecommendJobs}>
@@ -134,11 +134,11 @@ class Landingpage extends Component {
               Recommend job
             </Button>
           </Form>
-          <Container className="jobs">
-            <Row>{reccomendedJobs}</Row>
-          </Container>
+          <Row className="mt-4" key="jobs">
+            {reccomendedJobs}
+          </Row>
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }

@@ -163,11 +163,9 @@ class Jobs extends Component {
     }
 
     return (
-      <div>
+      <div className="container-fluid">
         {spinnerContent}
-        <Container className="jobs">
-          <Row>{reccomendedJobs}</Row>
-        </Container>
+        <Row>{reccomendedJobs}</Row>
       </div>
     );
   }

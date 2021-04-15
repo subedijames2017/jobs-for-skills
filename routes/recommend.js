@@ -25,16 +25,12 @@ router.post("/", (req, res, next) => {
     let counter = 0;
     predicted.data.forEach((element) => {
       let searchAbleString = element.split(" ");
-      if (searchAbleString.length > 0) {
-        searchAbleString.forEach((searchElemet) => {
-          if (counter) {
-            query.where("title", "like", `%${searchElemet}%`);
-          } else {
-            query.orWhere("title", "like", `%${searchElemet}%`);
-          }
-          counter += counter;
-        });
+      if (counter) {
+        query.where("title", "like", `%${searchAbleString[0]}%`);
+      } else {
+        query.orWhere("title", "like", `%${searchAbleString[0]}%`);
       }
+      counter += counter;
     });
     query
       .from(function () {
