@@ -23,7 +23,9 @@ router.post("/", (req, res, next) => {
     let currnetDate = date.toISOString().split("T")[0];
     let query = knex("vacencies").select("*");
     let counter = 0;
-    predicted.data.forEach((element) => {
+    let predictedData = predicted.data.filter((v, i, a) => a.indexOf(v) === i);
+    predictedData = predictedData.reverse();
+    predictedData.forEach((element) => {
       let searchAbleString = element.split(" ");
       if (counter) {
         query.where("title", "like", `%${searchAbleString[0]}%`);
