@@ -91,6 +91,7 @@ class Landingpage extends Component {
                           Company: {description.companyName}
                         </Card.Text>
                         <Card.Text>Location: {description.location}</Card.Text>
+                        <Card.Text>Job portal: {vacency.job_portal}</Card.Text>
                       </Col>
                     </Row>
                   </Col>

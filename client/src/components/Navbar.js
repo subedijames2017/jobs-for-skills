@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { logoutuser } from "./../actions/authAction";
-import { clearCurrentUser } from "./../actions/profileAction";
+import React, {Component} from "react";
+import {Link} from "react-router-dom";
+import {connect} from "react-redux";
+import {logoutuser} from "./../actions/authAction";
+import {clearCurrentUser} from "./../actions/profileAction";
 
 class Navbar extends Component {
   handelLogout = (e) => {
@@ -12,19 +12,19 @@ class Navbar extends Component {
     //console.log("this is working");
   };
   render() {
-    const { isAuthenticated, user } = this.props.auth;
+    const {isAuthenticated, user} = this.props.auth;
     return (
       <div>
         <nav className="navbar bg-blue">
           <h1>
-            <a href="/">
+            <a href="/" className="nounderline">
               <i className="fa fa-briefcase" aria-hidden="true"></i> Jobs For
               skills
             </a>
           </h1>
           <ul>
             <li className="nav-item">
-              <a href="/">
+              <a href="/" className="nounderline">
                 <i className="fa fa-home" aria-hidden="true"></i> Home
               </a>
             </li>
@@ -81,6 +81,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { logoutuser, clearCurrentUser })(
-  Navbar
-);
+export default connect(mapStateToProps, {logoutuser, clearCurrentUser})(Navbar);

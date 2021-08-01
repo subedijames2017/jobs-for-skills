@@ -481,3 +481,6 @@ textarea {
 .job_link:hover {
   text-decoration: none;
 }
+.nounderline {
+  text-decoration: none !important;
+}

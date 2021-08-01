@@ -33,10 +33,6 @@ class Jobs extends Component {
             },
           })
             .then((resp) => {
-              console.log(
-                "🚀 ~ file: Jobs.js ~ line 30 ~ Jobs ~ .then ~ resp",
-                resp
-              );
               if (resp && resp.data.data && resp.data.data.length > 0) {
                 this.setState({
                   recommend: resp.data.data,
@@ -74,10 +70,6 @@ class Jobs extends Component {
           },
         })
           .then((resp) => {
-            console.log(
-              "🚀 ~ file: Jobs.js ~ line 66 ~ Jobs ~ .then ~ resp",
-              resp
-            );
             if (resp && resp.data.data && resp.data.data.length > 0) {
               this.setState({
                 recommend: resp.data.data,
@@ -141,6 +133,7 @@ class Jobs extends Component {
                           Company: {description.companyName}
                         </Card.Text>
                         <Card.Text>Location: {description.location}</Card.Text>
+                        <Card.Text>Job portal: {vacency.job_portal}</Card.Text>
                       </Col>
                     </Row>
                   </Col>
