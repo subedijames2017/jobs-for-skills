@@ -1,71 +1,146 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
+import axios from "axios";
+import {
+  Form,
+  Button,
+  ListGroup,
+  Spinner,
+  Card,
+  Container,
+  Row,
+  Col,
+} from "react-bootstrap";
 
-export default class Landingpage extends Component {
+class Landingpage extends Component {
+  constructor(props) {
+    super(props);
+    this.handelSkillChange = this.handelSkillChange.bind(this);
+    this.handleRecommendJobs = this.handleRecommendJobs.bind(this);
+
+    this.state = {
+      skills: "",
+      jobs: [],
+      loading: false,
+      emptyResult: false,
+    };
+  }
+  handelSkillChange(e) {
+    this.setState({
+      skills: e.target.value,
+    });
+  }
+  handleRecommendJobs(e) {
+    this.setState({
+      loading: true,
+    });
+    e.preventDefault();
+    axios({
+      method: "post",
+      url: "/api/recommend",
+      data: {
+        skills: this.state.skills,
+      },
+    }).then((resp) => {
+      if (
+        resp &&
+        resp.data.data &&
+        resp.data.data.length > 0 &&
+        !this.state.emptyResult
+      ) {
+        this.setState({
+          jobs: resp.data.data,
+          skills: "",
+          loading: false,
+        });
+      }
+    });
+  }
   render() {
+    let handleRecommendJobs = this.handleRecommendJobs;
+    let spinnerContent = [];
+    let reccomendedJobs = [];
+    if (this.state.loading) {
+      spinnerContent.push(
+        <Spinner
+          className="spinner"
+          animation="border"
+          variant="info"
+          size="lg"
+        />
+      );
+    }
+    if (this.state.jobs.length > 0) {
+      this.state.jobs.forEach((vacency, index) => {
+        let description = vacency.description;
+        description = JSON.parse(description);
+        reccomendedJobs.push(
+          <Col sm={4} key={vacency.id}>
+            <Card>
+              <Card.Body>
+                <Row>
+                  <Col sm={2}>
+                    <img variant="top" src={vacency.avatar} />
+                  </Col>
+                  <Col sm={10}>
+                    <a href={vacency.link} target="_blank" className="job_link">
+                      <Card.Title>{vacency.title}</Card.Title>
+                    </a>
+                    <Row>
+                      <Col>
+                        <Card.Text>
+                          Company: {description.companyName}
+                        </Card.Text>
+                        <Card.Text>Location: {description.location}</Card.Text>
+                        <Card.Text>Job portal: {vacency.job_portal}</Card.Text>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+              </Card.Body>
+            </Card>
+          </Col>
+        );
+      });
+    }
+    if (this.state.emptyResult) {
+      reccomendedJobs.push(
+        <Col>
+          <Row className="d-flex justify-content-center">
+            <i className="fa fa-home" aria-hidden="true"></i>{" "}
+            <p>No vacencies now for your skills</p>
+          </Row>
+        </Col>
+      );
+    }
     return (
-      <div id="content">
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <div className="container-fluid">
-            <button type="button" id="sidebarCollapse" className="btn btn-info">
-              <i className="fas fa-align-left" />
-              <span>&ensp;Explore</span>
-            </button>
-            <button
-              className="btn btn-dark d-inline-block d-lg-none ml-auto"
-              type="button"
-              data-toggle="collapse"
-              data-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <i className="fas fa-align-justify" />
-            </button>
-            <div className="nav nav-tabs" id="nav-tab" role="tablist">
-              <a
-                className="nav-item nav-link active"
-                id="nav-home-tab"
-                data-toggle="tab"
-                href="#nav-home"
-                role="tab"
-                aria-controls="nav-home"
-                aria-selected="true"
-              >
-                Recomend
-              </a>
-              <a
-                className="nav-item nav-link"
-                id="nav-profile-tab"
-                data-toggle="tab"
-                href="#nav-profile"
-                role="tab"
-                aria-controls="nav-profile"
-                aria-selected="false"
-              >
-                Jobs
-              </a>
-            </div>
-          </div>
-        </nav>
-        <div className="tab-content" id="nav-tabContent">
-          <div
-            className="tab-pane fade show active"
-            id="nav-home"
-            role="tabpanel"
-            aria-labelledby="nav-home-tab"
-          >
-            Recomendation code goes here
-          </div>
-          <div
-            className="tab-pane fade"
-            id="nav-profile"
-            role="tabpanel"
-            aria-labelledby="nav-profile-tab"
-          >
-            Job lists goes here
-          </div>
+      <div className="container-fluid">
+        {spinnerContent}
+        <div id="content" className="container-fluid">
+          <Form onSubmit={handleRecommendJobs}>
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>Enter skills you have</Form.Label>
+              <Form.Control
+                value={this.state.skills}
+                as="textarea"
+                rows="3"
+                placeholder="Enter Skills"
+                onChange={this.handelSkillChange}
+                required
+              />
+              <Form.Text className="text-muted">
+                Enter your coma seperated skills
+              </Form.Text>
+            </Form.Group>
+            <Button variant="info" type="submit">
+              Recommend job
+            </Button>
+          </Form>
+          <Row className="mt-4" key="jobs">
+            {reccomendedJobs}
+          </Row>
         </div>
       </div>
     );
   }
 }
+export default Landingpage;

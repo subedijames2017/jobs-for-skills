@@ -1,25 +1,18 @@
 const express = require("express");
 const app = express();
-const { spawn } = require("child_process");
+const path = require("path");
+require("dotenv").config({path: "./.env"});
+const {spawn} = require("child_process");
+const bodyParser = require("body-parser");
+const user = require("./routes/user");
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+const recommend = require("./routes/recommend");
+const saveVacancies = require("./routes/scrapjobs");
 
-app.get("/", function (req, res) {
-  let largeDataSet = [];
-  const python = spawn("python", ["scripts/script.py", '{"name":"james"}']);
-  // collect data from script
-  python.stdout.on("data", function (data) {
-    console.log("data", data.toString());
-    console.log("data", JSON.parse(data.toString()));
-
-    console.log("Pipe data from python script ...");
-    largeDataSet.push(JSON.parse(data.toString()));
-  });
-  // in close event we are sure that stream is from child process is closed
-  python.on("close", (code) => {
-    console.log(`child process close all stdio with code ${code}`);
-    // send data to browser
-    res.send(largeDataSet);
-  });
-});
+app.use("/api/users", user);
+app.use("/api/recommend", recommend);
+app.use("/api/sync", saveVacancies);
 
 app.listen(3001, () => {
   console.log("server is runing at port", 3001);
